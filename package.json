@@ -1,0 +1,21 @@
+{
+    "private": true,
+    "type": "module",
+    "main": "public/main.cjs",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "start": "electron ."
+    },
+    "devDependencies": {
+        "axios": "^1.7.4",
+        "electron": "^33.0.2",
+        "laravel-echo": "^1.16.1",
+        "laravel-vite-plugin": "^1.0",
+        "pusher-js": "^8.4.0-rc2",
+        "vite": "^5.0"
+    },
+    "dependencies": {
+        "datatables.net-buttons-bs5": "^3.1.2"
+    }
+}
