@@ -16,7 +16,7 @@ class Sale extends Model
     }
 
     
-    protected $fillable = ['order_id', 'cashier_id', 'total_price'];
+    protected $fillable = ['order_id', 'cashier_id', 'total_price', 'transaction_id', 'payment_method'];
 
     public function products()
     {

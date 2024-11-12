@@ -17,6 +17,13 @@ class SaleController extends Controller
 {
     public function saveOrder(Request $request)
     {
+        if ($request->payment_method == 'card') {
+            $request->validate([
+                'transaction_id' => 'string',
+                'payment_method' => 'string',
+            ]);
+        }
+        // dd($request->payment_method);
         $request->validate([
             'order_id' => 'required',
             'products' => 'required|array',
@@ -36,6 +43,8 @@ class SaleController extends Controller
                 'total_price' => collect($request->products)->sum(function ($product) {
                     return $product['price'] * $product['quantity'];
                 }),
+                'transaction_id' => $request->payment_method == 'card' ? $request->transaction_id : "Cash payment",
+                'payment_method' => $request->payment_method == "card" ? "Card Payment" : "Cash payment",
             ]);
     
             foreach ($request->products as $product) {

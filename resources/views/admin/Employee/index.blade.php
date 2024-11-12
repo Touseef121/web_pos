@@ -5,7 +5,27 @@
 @endsection
 
 @section('admin-content')
-
+<style>
+       .paid-badge-glow {
+        position: relative;
+        display: inline-block;
+        padding: 15px 15px;
+        background-color: #28a745;
+        font-weight: bold;
+        box-shadow: 0 0 1px #28a745, 0 0 10px #28a745, 0 0 15px #28a745;
+    }
+    
+       .badge-glow {
+        position: relative;
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+        background-color: red; /* Green background */
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 0 1px red, 0 0 10px red, 0 0 15px red;
+    }
+</style>
 
     <div class="box-shadow mt-5">
         <div>
@@ -29,7 +49,7 @@
                         <th scope="col">Father Name</th>
                         <th scope="col">Phone Number</th>
                         <th scope="col">Id Card Number</th>
-                        <th scope="col">DOB (Date of Birth)</th>
+                        <th scope="col">DOB</th>
                         <th scope="col">Salary</th>
                         <th scope="col">Salary Status</th>
                         <th scope="col">Joining Date</th>
@@ -70,7 +90,14 @@
                         data: 'salary'
                     },
                     {
-                        data: 'salary_status'
+                        data: 'salary_status',
+                        render: function(data, type, row) {
+                            if (data === 'Paid') {
+                                return '<div class="text-center"><span class="badge badge-pill badge-Success paid-badge-glow">Paid</span></div>';
+                            } else {
+                                return '<div class="text-center"><span class="badge badge-pill badge-danger badge-glow">Un-Paid</span></div>';
+                            }
+                        }
                     },
                     {
                         data: 'joining_date'
@@ -90,9 +117,9 @@
                             }
                         }
                     }
-
                 ]
             });
         });
     </script>
+    
 @endsection

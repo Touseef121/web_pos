@@ -115,7 +115,6 @@ public function printOrder($id)
     $orderId = SaleItem::where('sale_id',$id)->value('sale_id');
     $todayDate = date('d/m/Y');
     $loggedInCashier = Auth::user()->user_name;
-    // dd($loggedInCashier);
     return view('cashier.print-template', compact('order', 'todayDate', 'orderId', 'loggedInCashier'));
 }
 

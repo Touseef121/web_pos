@@ -146,47 +146,48 @@
                     <button id="viewOrdersBtn" class="button1 bg-danger">View Today's Orders</button>
 
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <!-- Cashier Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h1 class="modal-title fs-5" id="exampleModalLabel">Save or Print Receipt</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="mb-3">
                                         <label for="totalPrice" class="form-label">Total Price</label>
                                         <input type="text" class="form-control" id="totalPrice" disabled readonly>
                                     </div>
-                    
+
                                     <form id="paymentForm">
-                                        <!-- Payment Method Radio Buttons -->
                                         <label for="" class="form-check-label">Payment Method</label>
-                                        <div class="form-check">
-                                            <div class="container">
-                                                <div class="row my-3">
-                                                    <div class="col-lg-4">
-                                                        <input class="form-check-input" type="radio" name="paymentMethod"
-                                                        id="cashOption" value="cash" checked>
-                                                        <label class="form-check-label" for="cashOption">
+                                        <div class="container">
+                                            <div class="form-group d-flex align-items-center"
+                                                style="justify-content: space-between;">
+                                                <div class="col-lg-4">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="paymentMethod" id="cashOption" value="cash" checked>
+                                                        <label class="form-check-label fs-5 fw-800" for="cashOption">
                                                             Cash
                                                         </label>
                                                     </div>
-                                                    <div class="col-lg-5">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="paymentMethod"
-                                                            id="cardOption" value="card">
-                                                            <label class="form-check-label" for="cardOption">
-                                                                Bank Card
-                                                            </label>
-                                                        </div>
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="paymentMethod" id="cardOption" value="card">
+                                                        <label class="form-check-label fs-5 fw-800" for="cardOption">
+                                                            Bank Card
+                                                        </label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <!-- Cash Payment Section -->
                                         <div id="cashSection">
                                             <label for="customerMoney" class="form-label">Customer Cash</label>
                                             <input type="number" class="form-control" id="customerMoney"
@@ -195,45 +196,48 @@
                                             <input type="number" class="form-control" id="toBeReturn" readonly>
                                         </div>
 
-                                        <!-- Card Payment Section (Hidden by Default) -->
                                         <div id="cardSection" style="display: none;">
                                             <label for="transactionId" class="form-label">Transaction ID</label>
-                                            <input type="text" class="form-control" id="transactionId"
-                                                placeholder="Enter Transaction ID">
+                                            <input type="text" class="form-control" name="transaction_id"
+                                                id="transactionId" placeholder="Enter Transaction ID">
                                             <label for="totalBillAmount" class="form-label">Total Bill Amount</label>
-                                            <input type="number" class="form-control" id="totalBillAmount"
-                                                placeholder="Enter Total Bill Amount">
+                                            <input type="number" class="form-control" id="totalBillAmount" disabled
+                                                readonly>
                                         </div>
                                     </form>
-                    
-                                    <!-- New checkbox for Save PDF or Print -->
+
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="savePdfCheck">
                                         <label class="form-check-label" for="savePdfCheck">Save as PDF</label>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
                                     <button id="saveOrderBtn" class="button1 my-3">Save/Print</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
 
                     <!-- Error Modal -->
-                      <div class="modal fade bg-dark" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+                    <div class="modal fade bg-dark" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel"
+                        aria-hidden="true">
                         <div class="modal-dialog bg-danger">
                             <div class="modal-content bg-danger">
                                 <div class="modal-header bg-danger text-light">
                                     <h5 class="text-center" id="errorModalLabel">Error Occurred</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
                                 <div class="alert bg-danger text-center mt-2">
-                                    <h2><strong class="text-light">Error! </strong></h2><span id="errorModalBody" class="text-light text-center fw-bold"></span>
+                                    <h2><strong class="text-light">Error! </strong></h2><span id="errorModalBody"
+                                        class="text-light text-center fw-bold"></span>
                                 </div>
-                                <div class="modal-footer m-0"> 
-                                    <button type="button" class="button1" data-bs-dismiss="modal" id="closeButton">Close</button>
+                                <div class="modal-footer m-0">
+                                    <button type="button" class="button1" data-bs-dismiss="modal"
+                                        id="closeButton">Close</button>
                                 </div>
                             </div>
                         </div>
@@ -378,7 +382,7 @@
                                 var saveAsPdf = $('#savePdfCheck').is(':checked');
                                 var orderDate = $('#dateToday').val();
                                 var paymentMethod = $('input[name="paymentMethod"]:checked')
-                            .val(); // Get selected payment method
+                                    .val(); // Get selected payment method
                                 var orderData = {
                                     order_id: '{{ $next_order_id }}',
                                     products: products,
@@ -438,7 +442,7 @@
                                             if (response.success) {
                                                 window.location.href = response.pdf_url;
                                                 saveAndPrintOrder
-                                            (); // Call function to save and print order after saving PDF
+                                                    (); // Call function to save and print order after saving PDF
                                             } else {
                                                 showErrorModal('Failed to generate PDF.');
                                             }
@@ -461,6 +465,7 @@
                                 });
                                 $('#orderTotal').text(total.toFixed(2)); // Update total price in the UI
                                 $('#totalPrice').val(total.toFixed(2)); // Update total price in the modal
+                                $('#totalBillAmount').val(total.toFixed(2)); // Update total price in the modal
                             }
 
                             function clearInputs() {

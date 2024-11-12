@@ -34,14 +34,14 @@ class AdminController extends Controller
     public function index(){
         $totalProducts = Product::count();
         $totalEmployee = Employee::count();
-        $unpaid = "UnPaid";
-        $pending_salaries_employees = Employee::where('salary_status',$unpaid)->count();
-        $pending_salaries = Employee::where('salary_status',$unpaid)->sum('salary');
+        $unPaid = "UnPaid";
+        $paid = "Paid";
+        $total_salaries = Employee::sum('salary');
+        $pending_salaries = Employee::where('salary_status',$unPaid)->sum('salary');
+        $paid_salaries = Employee::where('salary_status',$paid)->sum('salary');
         $dateToday = date('Y-m-d');
-        $totalSales = Sale::sum('total_price');
-        // $salesToday = Sale::where('date',$dateToday)->sum('total_price');
-        // dd($salesToday);
-        return view('admin.index', compact('totalProducts', 'totalEmployee', 'totalSales', 'pending_salaries', 'pending_salaries_employees'));
+        $totalSales = Sale::where('date',$dateToday)->sum('total_price');
+        return view('admin.index', compact('totalProducts', 'totalEmployee', 'totalSales', 'pending_salaries', 'total_salaries', 'paid_salaries'));
     }
 
     public function profileIndex(){

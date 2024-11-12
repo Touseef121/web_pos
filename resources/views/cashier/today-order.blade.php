@@ -49,6 +49,9 @@
                                 <th>Order ID</th>
                                 <th>Cashier Name</th>
                                 <th>Order Date</th>
+                                <th>Payment Method</th>
+                                <th>Transaction Id</th>
+                                <th>Amount</th>
                                 <th>View Details</th>
                             </tr>
                         </thead>
@@ -74,6 +77,9 @@
                                     </td>
 
                                     <td>{{ $order->created_at->format('Y-m-d') }}</td>
+                                    <td>{{ $order->payment_method}}</td>
+                                    <td>{{ $order->transaction_id}}</td>
+                                    <td>{{ $order->total_price}}</td>
                                     <td>
                                         <button class="viewDetailsBtn button1" data-id="{{ $order->id }}">View
                                             Details</button>
