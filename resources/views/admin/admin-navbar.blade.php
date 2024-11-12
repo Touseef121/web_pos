@@ -96,8 +96,8 @@
                 <div id="collapseSales" class="collapse" aria-labelledby="headingEmployee"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{ route('all.sales') }}">Overall Sales</a>
-                        <a class="collapse-item" href="{{route('today.sales')}}">Today Sales</a>
+                        <a class="collapse-item" href="{{ route('all.sales') }}">Total Sales</a>
+                        <a class="collapse-item" href="{{route('today.sales')}}">Daily Sales</a>
                     </div>
                 </div>
             </li>
