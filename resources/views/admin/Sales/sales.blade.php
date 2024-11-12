@@ -10,20 +10,24 @@
 
 @section('admin-content')
 <style>
+    body{
+        height: 80% !important;
+        overflow: auto !important;
+    }
      .table{
-            height: 80%;
-            overflow: auto;
+            height: 100% !important;
         }
         .box-shadow{
-            height: 50% !important;
-            overflow: auto !important;
-            margin-bottom: 30px !important;
+            height: 90% !important;
         }
         thead{
             top: 0;
             position: sticky !important;
         }
 </style>
+<body>
+    
+
     <div class="box-shadow mt-5">
         <div>
             <h3 class="text-center">Overall Sales</h3>
@@ -34,7 +38,7 @@
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
             
-           <div class="table">
+            <div class="table">
             <table class="table mt-3" id="sales-table">
                 <thead class="thead text-light" style="background-color: black;">
                     <tr>
@@ -44,6 +48,8 @@
                         <th scope="col">Product Name</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Date (Y-M-D)</th>
+                        <th scope="col">Payment Method</th>
+                        <th scope="col">Transaction Id</th>
                         <th scope="col">Total Price</th>
                     </tr>
                 </thead>
@@ -66,10 +72,13 @@
                     { data: 'product_name', name: 'product_name' },
                     { data: 'quantity', name: 'quantity' },
                     { data: 'date', name: 'date' },
+                    { data: 'payment_method', name: 'payment_method' },
+                    { data: 'transaction_id', name: 'transaction_id' },
                     { data: 'total_price', name: 'total_price' },
                 ]
             });
         });
     </script>
     
-@endsection
+</body>
+    @endsection

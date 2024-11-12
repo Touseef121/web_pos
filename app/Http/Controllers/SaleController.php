@@ -115,7 +115,7 @@ class SaleController extends Controller
         {
             if ($request->ajax()) {
                 $sales = Sale::with(['products', 'cashier'])
-                    ->select(['id', 'order_id', 'cashier_id', 'date'])
+                    ->select(['id', 'order_id', 'cashier_id', 'date', 'payment_method', 'transaction_id'])
                     ->get();
                 
                 return DataTables::of($sales)
@@ -176,6 +176,8 @@ class SaleController extends Controller
                             return [
                                 'order_id' => $sale->order_id,
                                 'total_price' => $sale->total_price,
+                                'payment_method' => $sale->payment_method,
+                                'transaction_id' => $sale->transaction_id,
                                 'date' => $sale->created_at->format('Y-m-d'),
                             ];
                         }),

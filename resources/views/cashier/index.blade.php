@@ -255,7 +255,7 @@
                             var products = [];
 
                             // Fetch product details based on barcode input
-                            $('#barcode').on('input', function() {
+                            $('#barcode').on('change', function() {
                                 var barcode = $(this).val();
                                 var quantity = parseInt($('#quantity').val()) || 1; // default to 1 if not entered
 
@@ -273,6 +273,7 @@
                                             $('#price').val(response.price);
                                         } else {
                                             showErrorModal(response.message);
+                                            $('#barcode').val('');
                                         }
                                     }
                                 });
