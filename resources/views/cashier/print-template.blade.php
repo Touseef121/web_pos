@@ -8,6 +8,7 @@
             display: flex;
             justify-content: center;
             height: 100%;
+            /* width: 100%; */
         }
         span{
             font-size: 15px;
@@ -15,7 +16,8 @@
         }
         .receipt{
             padding: 25px;
-            width: 20%;
+            height: 100%;
+            width: 100%;
         }
         thead>tr>th{ 
             font-weight: 800 !important;
@@ -29,6 +31,9 @@
             justify-content:space-between;
             padding-left:20px;
             padding-right:20px;
+        }
+        .total{
+            background-color: black;
         }
     </style>
 </head>
@@ -45,6 +50,11 @@
             </h6>
             <h6>
                 Date: <span>{{ $todayDate }}</span>
+            </h6>
+        </div>
+        <div class="row">
+            <h6>
+                Bill by: <span>{{ $loggedInCashier }}</span>
             </h6>
         </div>
         <div style="display: flex; justify-content:center;">
@@ -71,7 +81,7 @@
         </table>
     </div>
 
-        <h5 class="text-center bg-dark text-light">Grand Total: <span>{{ $order->total_price }}</span></h5>
+        <h5 class="text-center text-light fw-800 total">Grand Total: <span>{{ $order->total_price }}</span></h5>
     </div>
     <script>
         $(document).ready(function() {

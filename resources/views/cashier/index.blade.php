@@ -95,7 +95,7 @@
                     <meta name="csrf-token" content="{{ csrf_token() }}">
                 </head>
 
-                <body>  
+                <body>
                     <form id="orderTable">
                         <div class="row">
                             <div class="col-lg-3">
@@ -147,51 +147,81 @@
 
 
                     <!-- Modal -->
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h1 class="modal-title fs-5" id="exampleModalLabel">Save or Print Receipt</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="mb-3">
                                         <label for="totalPrice" class="form-label">Total Price</label>
                                         <input type="text" class="form-control" id="totalPrice" disabled readonly>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="customerMoney" class="form-label">Taked From Customer</label>
-                                        <input type="text" required min="0" class="form-control"
-                                            id="customerMoney">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="toBeReturn" class="form-label">Money in Return</label>
-                                        <input type="text" required min="0" class="form-control"
-                                            id="toBeReturn" disabled readonly>
-                                    </div>
+                    
+                                    <form id="paymentForm">
+                                        <!-- Payment Method Radio Buttons -->
+                                        <label for="" class="form-check-label">Payment Method</label>
+                                        <div class="form-check">
+                                            <div class="container">
+                                                <div class="row my-3">
+                                                    <div class="col-lg-4">
+                                                        <input class="form-check-input" type="radio" name="paymentMethod"
+                                                        id="cashOption" value="cash" checked>
+                                                        <label class="form-check-label" for="cashOption">
+                                                            Cash
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-5">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="paymentMethod"
+                                                            id="cardOption" value="card">
+                                                            <label class="form-check-label" for="cardOption">
+                                                                Bank Card
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
+                                        <!-- Cash Payment Section -->
+                                        <div id="cashSection">
+                                            <label for="customerMoney" class="form-label">Customer Cash</label>
+                                            <input type="number" class="form-control" id="customerMoney"
+                                                placeholder="Enter cash received">
+                                            <label for="toBeReturn" class="form-label">Change to Return</label>
+                                            <input type="number" class="form-control" id="toBeReturn" readonly>
+                                        </div>
+
+                                        <!-- Card Payment Section (Hidden by Default) -->
+                                        <div id="cardSection" style="display: none;">
+                                            <label for="transactionId" class="form-label">Transaction ID</label>
+                                            <input type="text" class="form-control" id="transactionId"
+                                                placeholder="Enter Transaction ID">
+                                            <label for="totalBillAmount" class="form-label">Total Bill Amount</label>
+                                            <input type="number" class="form-control" id="totalBillAmount"
+                                                placeholder="Enter Total Bill Amount">
+                                        </div>
+                                    </form>
+                    
                                     <!-- New checkbox for Save PDF or Print -->
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="savePdfCheck">
-                                        <label class="form-check-label" for="savePdfCheck">
-                                            Save as PDF
-                                        </label>
+                                        <input class="form-check-input" type="checkbox" id="savePdfCheck">
+                                        <label class="form-check-label" for="savePdfCheck">Save as PDF</label>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     <button id="saveOrderBtn" class="button1 my-3">Save/Print</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
 
-                      <!-- Error Modal -->
+                    <!-- Error Modal -->
                       <div class="modal fade bg-dark" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
                         <div class="modal-dialog bg-danger">
                             <div class="modal-content bg-danger">
@@ -210,11 +240,13 @@
                     </div>
 
 
+
+
                     <script>
                         $(document).ready(function() {
                             function showErrorModal(errorMessage) {
-                                $('#errorModalBody').text(errorMessage); 
-                                $('#errorModal').modal('show'); 
+                                $('#errorModalBody').text(errorMessage);
+                                $('#errorModal').modal('show');
                             }
                             var products = [];
 
@@ -302,15 +334,16 @@
                                                 clearInputs();
                                             } else {
                                                 // Stock is insufficient, show alert
-                                                showErrorModal('Stock is not available. Available quantity: ' + response
+                                                showErrorModal('Stock is not available. Available quantity: ' +
+                                                    response
                                                     .available_stock);
-                                                    clearInputs();
+                                                clearInputs();
                                             }
                                         },
                                         error: function(error) {
                                             showErrorModal('Failed to check stock. Please try again.');
                                         }
-                                        
+
                                     });
                                 } else {
                                     showErrorModal('Please enter a valid product.');
@@ -330,11 +363,68 @@
                                 }
                             });
 
+                            $('input[name="paymentMethod"]').on('change', function() {
+                                if ($('#cashOption').is(':checked')) {
+                                    $('#cashSection').show();
+                                    $('#cardSection').hide();
+                                } else if ($('#cardOption').is(':checked')) {
+                                    $('#cashSection').hide();
+                                    $('#cardSection').show();
+                                }
+                            });
+
+
                             $('#saveOrderBtn').on('click', function() {
                                 var saveAsPdf = $('#savePdfCheck').is(':checked');
                                 var orderDate = $('#dateToday').val();
+                                var paymentMethod = $('input[name="paymentMethod"]:checked')
+                            .val(); // Get selected payment method
+                                var orderData = {
+                                    order_id: '{{ $next_order_id }}',
+                                    products: products,
+                                    date: orderDate,
+                                    _token: $('meta[name="csrf-token"]').attr('content')
+                                };
+
+                                // Add payment-specific data based on selected method
+                                if (paymentMethod === 'cash') {
+                                    orderData.payment_method = 'cash';
+                                    orderData.received_money = parseFloat($('#customerMoney').val());
+                                } else if (paymentMethod === 'card') {
+                                    orderData.payment_method = 'card';
+                                    orderData.transaction_id = $('#transactionId').val();
+                                    orderData.total_bill_amount = parseFloat($('#totalBillAmount').val());
+                                }
+
+                                function saveAndPrintOrder() {
+                                    $.ajax({
+                                        url: '/save-order',
+                                        type: 'POST',
+                                        data: orderData,
+                                        success: function(response) {
+                                            if (response.success) {
+                                                var iframe = document.createElement('iframe');
+                                                iframe.style.display = 'none';
+                                                iframe.src = '/print-order/' + '{{ $next_order_id }}';
+                                                document.body.appendChild(iframe);
+                                                iframe.onload = function() {
+                                                    iframe.contentWindow.print();
+                                                    iframe.contentWindow.onafterprint = function() {
+                                                        window.location.reload();
+                                                    };
+                                                };
+                                            } else {
+                                                showErrorModal('Failed to save the order.');
+                                            }
+                                        },
+                                        error: function(error) {
+                                            showErrorModal(error.responseJSON.message);
+                                        }
+                                    });
+                                }
 
                                 if (saveAsPdf) {
+                                    // Save PDF order and then proceed to save and print the order
                                     $.ajax({
                                         url: '/save-pdf-order',
                                         type: 'POST',
@@ -347,92 +437,38 @@
                                         success: function(response) {
                                             if (response.success) {
                                                 window.location.href = response.pdf_url;
+                                                saveAndPrintOrder
+                                            (); // Call function to save and print order after saving PDF
                                             } else {
                                                 showErrorModal('Failed to generate PDF.');
                                             }
-                                        }
-                                    });
-
-                                    $.ajax({
-                                        url: '/save-order',
-                                        type: 'POST',
-                                        data: {
-                                            order_id: '{{ $next_order_id }}',
-                                            products: products,
-                                            date: orderDate, // Include date here
-                                            _token: $('meta[name="csrf-token"]').attr('content')
-                                        },
-                                        success: function(response) {
-                                            if (response.success) {
-                                                var iframe = document.createElement('iframe');
-                                                iframe.style.display = 'none';
-                                                iframe.src = '/print-order/' + '{{ $next_order_id }}';
-                                                document.body.appendChild(iframe);
-                                                iframe.onload = function() {
-                                                    iframe.contentWindow.print();
-                                                    iframe.contentWindow.onafterprint = function() {
-                                                        window.location.reload();
-                                                    };
-                                                };
-                                            } else {
-                                                showErrorModal('Failed to save the order.');
-                                            }
                                         },
                                         error: function(error) {
-                                            showErrorModal(error.responseJSON.message);
+                                            showErrorModal('Error saving PDF: ' + error.responseJSON.message);
                                         }
-
                                     });
-
                                 } else {
-                                    $.ajax({
-                                        url: '/save-order',
-                                        type: 'POST',
-                                        data: {
-                                            order_id: '{{ $next_order_id }}',
-                                            products: products,
-                                            date: orderDate, // Include date here
-                                            _token: $('meta[name="csrf-token"]').attr('content')
-                                        },
-                                        success: function(response) {
-                                            if (response.success) {
-                                                var iframe = document.createElement('iframe');
-                                                iframe.style.display = 'none';
-                                                iframe.src = '/print-order/' + '{{ $next_order_id }}';
-                                                document.body.appendChild(iframe);
-                                                iframe.onload = function() {
-                                                    iframe.contentWindow.print();
-                                                    iframe.contentWindow.onafterprint = function() {
-                                                        window.location.reload();
-                                                    };
-                                                };
-                                            } else {
-                                                showErrorModal('Failed to save the order.');
-                                            }
-                                        },
-                                        error: function(error) {
-                                            showErrorModal(error.responseJSON.message);
-                                        }
-
-                                    });
+                                    // Directly save and print the order if PDF is not needed
+                                    saveAndPrintOrder();
                                 }
                             });
 
-                            function calculateTotalPrice() {
-                                    var total = 0;
-                                    products.forEach(function(item) {
-                                        total += item.price * item.quantity;
-                                    });
-                                    $('#orderTotal').text(total.toFixed(2)); // Update total price in the UI
-                                    $('#totalPrice').val(total.toFixed(2)); // Update total price in the modal
-                                }
 
-                                function clearInputs() {
-                                    $('#barcode').val('');
-                                    $('#product-name').val('');
-                                    $('#quantity').val(''); // Reset quantity to 1
-                                    $('#price').val('');
-                                }
+                            function calculateTotalPrice() {
+                                var total = 0;
+                                products.forEach(function(item) {
+                                    total += item.price * item.quantity;
+                                });
+                                $('#orderTotal').text(total.toFixed(2)); // Update total price in the UI
+                                $('#totalPrice').val(total.toFixed(2)); // Update total price in the modal
+                            }
+
+                            function clearInputs() {
+                                $('#barcode').val('');
+                                $('#product-name').val('');
+                                $('#quantity').val(''); // Reset quantity to 1
+                                $('#price').val('');
+                            }
 
                             // Calculate return money based on customer input
                             $('#customerMoney').on('keyup', function() {
