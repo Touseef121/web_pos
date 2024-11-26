@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('id_card_picture')->default('No Picture');
             $table->string('dob');
             $table->string('salary');
-            $table->string('salary_status');
+            $table->string('salary_status')->default('UnPaid');
             $table->string('picture')->default('No Image');
             $table->string('joining_date');
             $table->string('leaving_date')->default('Null');

@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Suplier;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use App\Models\EmployeeSalaryRecord;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
@@ -32,13 +33,15 @@ class AdminController extends Controller
     }
 
     public function index(){
+        $leavingDate = NULL;
         $totalProducts = Product::count();
-        $totalEmployee = Employee::count();
+        $totalEmployee = Employee::where('leaving_date',$leavingDate)->count();
         $unPaid = "UnPaid";
         $paid = "Paid";
-        $total_salaries = Employee::sum('salary');
-        $pending_salaries = Employee::where('salary_status',$unPaid)->sum('salary');
-        $paid_salaries = Employee::where('salary_status',$paid)->sum('salary');
+        $total_salaries = Employee::where('leaving_date',$leavingDate)->sum('salary');
+        $pending_salaries = Employee::where('salary_status',$unPaid)->where('leaving_date',$leavingDate)->sum('salary');
+        $paid_salaries = Employee::where('salary_status',$paid)->where('leaving_date',$leavingDate)->sum('salary');
+        // dd($pending_salaries);
         $dateToday = date('Y-m-d');
         $totalSales = Sale::where('date',$dateToday)->sum('total_price');
         return view('admin.index', compact('totalProducts', 'totalEmployee', 'totalSales', 'pending_salaries', 'total_salaries', 'paid_salaries'));
@@ -315,25 +318,69 @@ class AdminController extends Controller
             return view('admin.Employee.edit', compact('employeeData'));
         }
 
-        public function saveEditEmployee(Request $request, String $id){
-            $edits = $request->validate(
-                [
-                    'name' => 'required',
-                    'father_name' => 'required',
-                    'phone_number' => 'required',
-                    'id_card_number' => 'required',
-                    'dob' => 'required',
-                    'salary' => 'required',
-                    'salary_status' => 'required',
-                    'leaving_date' => 'nullable'
-                    ]
-                );
-                
-                $saveEdit = Employee::find($id)->update($edits); 
-                // dd($saveEdit);
+        public function saveEditEmployee(Request $request, String $id)
+        {
+            $employee = Employee::findOrFail($id);
+
+            $validated = $request->validate([
+                'name' => 'required',
+                'father_name' => 'required',
+                'phone_number' => 'required',
+                'id_card_number' => 'required',
+                'dob' => 'required',
+                'salary' => 'required',
+                'salary_status' => 'required',
+                'leaving_date' => 'nullable',
+            ]);
+
+            Employee::where('id',$employee)->update($validated);
+
+            // Check salary status
+            if ($employee->salary_status == "UnPaid") {
+                return redirect()->route('edit.salary', $employee->id);
+            }
 
             return redirect()->route('view.employee')->with('status', 'Record has been updated successfully!');
+}
+
+
+        public function editSalary($id)
+        {
+            $employee = Employee::findOrFail($id);
+
+            return view('admin.Employee.edit-salary', compact('employee'));
         }
+
+        public function updateSalary(Request $request, $id)
+        {
+            $employee = Employee::findOrFail($id);
+
+            $validated = $request->validate([
+                'total_salary' => 'required|numeric',
+                'working_days' => 'required|integer',
+                'employee_id' => 'unique:employee_salary_table,employee_id,'
+            ]);
+
+            $perDaySalary = $validated['total_salary'] / now()->daysInMonth;
+            $calculatedSalary = $perDaySalary * $validated['working_days'];
+
+            // Save the salary record
+            EmployeeSalaryRecord::create([
+                'employee_id' => $employee->id,
+                'month_year' => now()->format('Y-m-01'),
+                'total_salary' => $validated['total_salary'],
+                'per_day_salary' => $perDaySalary,
+                'working_days' => $validated['working_days'],
+                'calculated_salary' => $calculatedSalary,
+                'salary_status' => "Paid",
+            ]);
+
+            // Update employee salary status
+            $employee->update(['salary_status' => "Paid"]);
+
+            return redirect()->route('view.employee')->with('status', 'Salary updated successfully!');
+        }
+
 
 
 

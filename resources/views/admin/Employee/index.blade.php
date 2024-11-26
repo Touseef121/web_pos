@@ -5,27 +5,40 @@
 @endsection
 
 @section('admin-content')
-<style>
-       .paid-badge-glow {
-        position: relative;
-        display: inline-block;
-        padding: 15px 15px;
-        background-color: #28a745;
-        font-weight: bold;
-        box-shadow: 0 0 1px #28a745, 0 0 10px #28a745, 0 0 15px #28a745;
-    }
-    
-       .badge-glow {
-        position: relative;
-        display: inline-block;
-        padding: 5px 10px;
-        border-radius: 20px;
-        background-color: red; /* Green background */
-        color: white;
-        font-weight: bold;
-        box-shadow: 0 0 1px red, 0 0 10px red, 0 0 15px red;
-    }
-</style>
+    <style>
+        .paid-badge-glow {
+            position: relative;
+            display: inline-block;
+            padding: 15px 15px;
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 1px #28a745, 0 0 10px #28a745, 0 0 15px #28a745;
+        }
+
+        .badge-glow {
+            position: relative;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background-color: orange;
+            /* Green background */
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 1px orange, 0 0 10px orange, 0 0 15px orange;
+        }
+        .resigned-badge-glow {
+            position: relative;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background-color: red;
+            /* Green background */
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 1px red, 0 0 10px red, 0 0 15px red;
+        }
+    </style>
 
     <div class="box-shadow mt-5">
         <div>
@@ -63,7 +76,6 @@
 
     <script type="text/javascript">
         $(function() {
-            // Initialize the DataTable
             $('#employee-table').DataTable({
                 processing: true,
                 serverSide: true,
@@ -92,10 +104,14 @@
                     {
                         data: 'salary_status',
                         render: function(data, type, row) {
-                            if (data === 'Paid') {
-                                return '<div class="text-center"><span class="badge badge-pill badge-Success paid-badge-glow">Paid</span></div>';
+                            if(row.leaving_date === null){
+                                if (data === 'Paid') {
+                                return '<div class="text-center"><span class="badge badge-pill paid-badge-glow">Paid</span></div>';
                             } else {
-                                return '<div class="text-center"><span class="badge badge-pill badge-danger badge-glow">Un-Paid</span></div>';
+                                return '<div class="text-center"><span class="badge badge-pill badge-glow">UnPaid</span></div>';
+                            }
+                        }else{
+                                return '<div class="text-center"><span class="badge badge-pill resigned-badge-glow">Resigned</span></div>';
                             }
                         }
                     },
@@ -110,10 +126,13 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            if (row.id) {
-                                return `<a class="button1" href="/edit-employee-page/${row.id}"><i class="fa fa-pencil"></i></a>`;
+                            if (row.leaving_date === null) {
+                                let editUrl = row.salary_status === "UnPaid" ?
+                                    `/employee/${row.id}/edit-salary` :
+                                    `/edit-employee-page/${row.id}`;
+                                return `<a class="button1" href="${editUrl}"><i class="fa fa-pencil"></i></a>`;
                             } else {
-                                return 'User id Not Found';
+                                return `<span class="text-muted">Resigned</span>`;
                             }
                         }
                     }
@@ -121,5 +140,4 @@
             });
         });
     </script>
-    
 @endsection

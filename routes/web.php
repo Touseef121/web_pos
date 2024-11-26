@@ -81,3 +81,6 @@ Route::get('/print-order/{id}', [CashierController::class, 'printOrder']);
 Route::get('/orders/today', [SaleController::class, 'showTodayOrders'])->name('orders.today');
 Route::get('/orders/{orderId}/details', [SaleController::class, 'viewOrderDetails'])->name('orders.details');
 Route::post('/check-stock', [InventoryController::class, 'checkStock'])->name('check.stock');
+
+Route::get('/employee/{id}/edit-salary', [AdminController::class, 'editSalary'])->name('edit.salary');
+Route::post('/employee/{id}/update-salary', [AdminController::class, 'updateSalary'])->name('update.salary');

@@ -18,7 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'dataentry' => \App\Http\Middleware\DataEntry::class,
             'usercheck' => \App\Http\Middleware\UserAuthCheck::class,
         ]);
+        
     })
+
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
