@@ -12,28 +12,28 @@ use App\Http\Controllers\InventoryController;
 
 
 Route::get('/', function () {return view('home');})->name('home');
-ROute::get('/create-user-page', [AdminController::class, 'createUser'])->name('create.user')->middleware('admin');
-ROute::post('/save-user', [AdminController::class, 'saveUser'])->name('save.user')->middleware('admin');
-ROute::get('/index-user-page', [AdminController::class, 'indexUser'])->name('index.user')->middleware('admin');
-ROute::get('/all-users', [AdminController::class, 'allUsers'])->name('all.users')->middleware('admin');
-ROute::get('/edit-user-page', [AdminController::class, 'editUser'])->name('edit.user')->middleware('admin');
-ROute::post('/edit-user', [AdminController::class, 'saveEdit'])->name('save.edit')->middleware('usercheck');
-ROute::get('/delete-user/{id}', [AdminController::class, 'deleteUser'])->name('delete.user')->middleware('admin');
+Route::get('/create-user-page', [AdminController::class, 'createUser'])->name('create.user')->middleware('admin');
+Route::post('/save-user', [AdminController::class, 'saveUser'])->name('save.user')->middleware('admin');
+Route::get('/index-user-page', [AdminController::class, 'indexUser'])->name('index.user')->middleware('admin');
+Route::get('/all-users', [AdminController::class, 'allUsers'])->name('all.users')->middleware('admin');
+Route::get('/edit-user-page', [AdminController::class, 'editUser'])->name('edit.user')->middleware('admin');
+Route::post('/edit-user', [AdminController::class, 'saveEdit'])->name('save.edit')->middleware('usercheck');
+Route::get('/delete-user/{id}', [AdminController::class, 'deleteUser'])->name('delete.user')->middleware('admin');
 
 Route::get('/login', [UserController::class, 'loginPage'])->name('login.page');
 Route::post('/user-login', [UserController::class, 'userLogin'])->name('user.login');
 Route::get('/user-logout', [UserController::class, 'userLogout'])->name('user.logout');
-ROute::get('/profile-page', [AdminController::class, 'profileIndex'])->name('profile.page')->middleware('usercheck');
-ROute::get('/profile-edit', [AdminController::class, 'profileEdit'])->name('profile.edit')->middleware('usercheck');
-ROute::post('/save-edit/{id}', [AdminController::class, 'saveProfile'])->name('save.profile')->middleware('usercheck');
+Route::get('/profile-page', [AdminController::class, 'profileIndex'])->name('profile.page')->middleware('usercheck');
+Route::get('/profile-edit', [AdminController::class, 'profileEdit'])->name('profile.edit')->middleware('usercheck');
+Route::post('/save-edit/{id}', [AdminController::class, 'saveProfile'])->name('save.profile')->middleware('usercheck');
 
 
-ROute::get('/create-employee-page', [AdminController::class, 'createEmployee'])->name('create.employee')->middleware('admin');
-ROute::post('/save-employee', [AdminController::class, 'saveEmployee'])->name('save.employee')->middleware('admin');
-ROute::get('/view-employee-page', [AdminController::class, 'viewEmployee'])->name('view.employee')->middleware('admin');
-ROute::get('/all-employee-page', [AdminController::class, 'allEmployees'])->name('all.employees')->middleware('admin');
-ROute::get('/edit-employee-page/{id}', [AdminController::class, 'editEmployees'])->name('edit.employees')->middleware('admin');
-ROute::post('/edit-employee/{id}', [AdminController::class, 'saveEditEmployee'])->name('save.edit')->middleware('admin');
+Route::get('/create-employee-page', [AdminController::class, 'createEmployee'])->name('create.employee')->middleware('admin');
+Route::post('/save-employee', [AdminController::class, 'saveEmployee'])->name('save.employee')->middleware('admin');
+Route::get('/view-employee-page', [AdminController::class, 'viewEmployee'])->name('view.employee')->middleware('admin');
+Route::get('/all-employee-page', [AdminController::class, 'allEmployees'])->name('all.employees')->middleware('admin');
+Route::get('/edit-employee-page/{id}', [AdminController::class, 'editEmployees'])->name('edit.employees')->middleware('admin');
+Route::post('/edit-employee/{id}', [AdminController::class, 'saveEditEmployee'])->name('save.edit')->middleware('admin');
 
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index')->middleware('admin');
@@ -44,10 +44,11 @@ Route::post('/create-product', [AdminController::class, 'createProduct'])->name(
 Route::get('/delete-product/{id}', [AdminController::class, 'saveProduct'])->name('delete.product')->middleware('admin');
 
 
-// routes/web.php
 Route::get('/add-purchase', [ProductController::class, 'purchaseBarcode'])->name('purchase.barcode')->middleware('admin');
 Route::get('/product/barcode/{barcode}', [ProductController::class, 'fetchProductByBarcode']);
 Route::post('/update-product', [ProductController::class, 'updateProduct'])->name('update.product')->middleware('admin');
+Route::get('/purchases-index', [ProductController::class, 'purchasesIndex'])->name('purchases.index')->middleware('admin');
+Route::get('/purchase-details/{id}', [ProductController::class, 'purchaseDetails'])->name('purchase.details')->middleware('admin');
 
 Route::get('/get-products', [CashierController::class, 'getProducts']);
 Route::get('/get-product-by-barcode/{barcode}', [CashierController::class, 'getProductByBarcode']);

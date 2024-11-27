@@ -10,7 +10,7 @@ class Inventory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id', 'supplier_id', 'category', 'brand', 'barcode', 'purchased_units', 'purchase_cost', 'tax', 'discount', 'per_unit_price', 'total_cost', 'expiry_date' , 'created_date', 'suplier_name'];
+    protected $fillable = ['product_id', 'supplier_id', 'category', 'brand', 'barcode', 'purchased_units', 'purchase_cost', 'tax', 'discount', 'per_unit_price', 'total_cost', 'created_by','expiry_date' , 'created_date', 'suplier_name'];
 
     public function product()
     {

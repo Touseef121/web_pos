@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('discount'); 
             $table->string('per_unit_price');
             $table->string('total_cost');
+            $table->string('created_by');
             $table->string('expiry_date');
             $table->string('created_date');
             $table->timestamps();

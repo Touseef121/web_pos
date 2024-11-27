@@ -123,36 +123,29 @@
 <script type="text/javascript">
 
 $(".calc-total").on("keyup", function(e) {
-    let gst = Number($("#gst").val()); // GST percentage
-let quantity = Number($("#purchased-units").val()); // Number of units purchased
-let price = Number($("#purchase-price").val()); // Per unit price
-let discount = Number($("#discount").val()); // Discount percentage
+    let gst = Number($("#gst").val());
+let quantity = Number($("#purchased-units").val());
+let price = Number($("#purchase-price").val());
+let discount = Number($("#discount").val()); 
 
-// Calculate GST amount for the entire purchase (total price for all units)
-let gst_item = price  * (gst / 100);
+let gst_item = price * quantity * (gst / 100);
 
 let purchase_total = (price * quantity) + gst_item;
 
-// Per-unit price before applying discount
 let perUnitPrice = purchase_total / quantity;
 
 if (discount > 0) {
-    // Apply discount on the total price including GST
     let discount_amount = purchase_total * (discount / 100);
 
-    // Total price after discount
     let totalPriceAfterDiscount = purchase_total - discount_amount;
 
-    // Per-unit price after discount
     let discountedPerUnit = totalPriceAfterDiscount / quantity;
 
-    // Set the final total price and per unit price after discount
-    $("#selling-price").val(totalPriceAfterDiscount.toFixed(2)); // Total price after discount
-    $("#price-unit").val(discountedPerUnit.toFixed(2)); // Per-unit price after discount
+    $("#selling-price").val(totalPriceAfterDiscount.toFixed(2));
+    $("#price-unit").val(discountedPerUnit.toFixed(2));
 } else {
-    // If no discount, use the total price including GST
-    $("#selling-price").val(purchase_total.toFixed(2)); // Total price without discount
-    $("#price-unit").val(perUnitPrice.toFixed(2)); // Per-unit price without discount
+    $("#selling-price").val(purchase_total.toFixed(2));
+    $("#price-unit").val(perUnitPrice.toFixed(2));
 }
 
     

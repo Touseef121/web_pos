@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -30,38 +31,40 @@ class ProductController extends Controller
     }
 
     public function purchaseBarcode(){
-        
-        return view('admin.products.add-purchase');
+        $user = Auth::user()->user_name;
+        return view('admin.products.add-purchase', compact('user'));
     }
 
     public function updateProduct(Request $request){
-       $id = $request->product_id;
-    
-        $extisting_units = Inventory::where('product_id',$id)->value('purchased_units');
-        $stock = $request->purchased_units;
-        if($extisting_units){
-            $sum = $extisting_units + $stock;
-            $product = Inventory::where('product_id', $id)->update(['purchased_units' => $sum]);
-            return redirect()->route('purchase.barcode')->with('status', 'Purchase added successfully!');
-        }else{
-            $newProduct =  $request->validate([
-            'product_id' => 'required',
-            'category' => 'required',
-            'brand' => 'required',
-            'barcode' => 'required',
-            'purchased_units' => 'required',
-            'purchase_cost' => 'required',
-            'tax' => 'required',
-            'discount' => 'numeric',
-            'per_unit_price' => 'required',
-            'total_cost' => 'required',
-            'expiry_date' => 'required',
-            'created_date' => 'required',
-        ]);
-        $product = Inventory::create($newProduct);
-    }
-        return redirect()->route('purchase.barcode')->with('status', 'Purchase added Successfully');
-    }
+        $id = $request->product_id;
+     
+         $extisting_units = Inventory::where('product_id',$id)->value('purchased_units');
+         $stock = $request->purchased_units;
+         if($extisting_units){
+             $sum = $extisting_units + $stock;
+             $product = Inventory::where('product_id', $id)->update(['purchased_units' => $sum]);
+             return redirect()->route('purchase.barcode')->with('status', 'Purchase added successfully!');
+         }else{
+             $newProduct =  $request->validate([
+             'product_id' => 'required',
+             'category' => 'required',
+             'brand' => 'required',
+             'barcode' => 'required',
+             'purchased_units' => 'required',
+             'purchase_cost' => 'required',
+             'tax' => 'required',
+             'discount' => 'numeric',
+             'per_unit_price' => 'required',
+             'total_cost' => 'required',
+             'created_by' => 'required',
+             'expiry_date' => 'required',
+             'created_date' => 'required',
+         ]);
+         $product = Inventory::create($newProduct);
+     }
+         return redirect()->route('purchase.barcode')->with('status', 'Purchase added Successfully');
+     }
+
     
     public function search(Request $request) {
         $search = $request->get('q');
@@ -79,4 +82,15 @@ class ProductController extends Controller
         }
     }
     
+
+    public function purchasesIndex(){
+        $data = Inventory::all();
+        return view('admin.products.purchase-index', compact('data'));
+    }
+
+    public function purchaseDetails(String $id){
+        $details = Product::where('id', $id)->with('inventory')->get();
+        // dd($details);
+        return view('admin.products.purchase-details',compact('details'));
+    }
 }

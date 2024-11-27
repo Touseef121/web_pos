@@ -10,5 +10,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 // Schedule::command(ResetEmployeeSalaryStatus::class)->daily();
-Schedule::command(UpdateSalaryStatus::class)->daily();
+Schedule::command(UpdateSalaryStatus::class)->everySecond();
 
