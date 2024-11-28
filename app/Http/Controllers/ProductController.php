@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
+use App\Models\PurchaseRecord;
 use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
@@ -37,13 +38,22 @@ class ProductController extends Controller
 
     public function updateProduct(Request $request){
         $id = $request->product_id;
-     
          $extisting_units = Inventory::where('product_id',$id)->value('purchased_units');
          $stock = $request->purchased_units;
          if($extisting_units){
              $sum = $extisting_units + $stock;
-             $product = Inventory::where('product_id', $id)->update(['purchased_units' => $sum]);
-             return redirect()->route('purchase.barcode')->with('status', 'Purchase added successfully!');
+             $purchase_cost = $request->purchase_cost;
+             $tax = $request->tax;
+             $discount = $request->discount;
+             $per_unit_price = $request->per_unit_price;
+             $total_cost = $request->total_cost;
+             $created_by = Auth::user()->user_name;
+             $created_date = date('Y-m-d');
+             $product = Inventory::where('product_id', $id)->update(['purchased_units' => $sum, 'purchase_cost' => $purchase_cost, 'tax' => $tax, 'discount' => $discount, 'per_unit_price' => $per_unit_price, 'total_cost' => $total_cost, 'created_by' => $created_by, 'created_date' => $created_date]);
+
+            // dd($data);
+            PurchaseRecord::create(['product_id' => $request->product_id ,'category' => $request->category, 'brand' => $request->brand, 'barcode' => $request->barcode,'purchased_units' => $request->purchased_units, 'purchase_cost' => $request->purchase_cost, 'tax' => $request->tax, 'discount' => $request->discount, 'per_unit_price' => $request->per_unit_price, 'total_cost' => $request->total_cost, 'created_by' => $created_by, 'created_date' => $created_date, 'expiry_date' => $request->expiry_date]);
+            return redirect()->route('purchase.barcode')->with('status', 'Purchase added successfully!');
          }else{
              $newProduct =  $request->validate([
              'product_id' => 'required',
@@ -61,6 +71,9 @@ class ProductController extends Controller
              'created_date' => 'required',
          ]);
          $product = Inventory::create($newProduct);
+         $created_by = Auth::user()->user_name;
+         $data = $request->all();
+         PurchaseRecord::create($data, $created_by);
      }
          return redirect()->route('purchase.barcode')->with('status', 'Purchase added Successfully');
      }
@@ -84,13 +97,22 @@ class ProductController extends Controller
     
 
     public function purchasesIndex(){
-        $data = Inventory::all();
+        $data = PurchaseRecord::paginate(10);
+        // dd($data);
         return view('admin.products.purchase-index', compact('data'));
     }
 
     public function purchaseDetails(String $id){
-        $details = Product::where('id', $id)->with('inventory')->get();
-        // dd($details);
+        $details = PurchaseRecord::where('id',$id)->with('product')->get();
+        // return $details;
         return view('admin.products.purchase-details',compact('details'));
     }
+
+    public function searchrec(Request $request)
+{
+    $searchDate = $request->input('search');
+    $data = PurchaseRecord::whereDate('created_date', $searchDate)->paginate(10);
+    
+    return view('admin.products.purchase-index', compact('data'));
+}
 }

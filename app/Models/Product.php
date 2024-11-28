@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Inventory;
+use App\Models\PurchaseRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -15,6 +16,10 @@ class Product extends Model
    public function inventory()
    {
        return $this->hasOne(Inventory::class);
+   }
+   public function record()
+   {
+       return $this->hasOne(PurchaseRecord::class);
    }
 
    

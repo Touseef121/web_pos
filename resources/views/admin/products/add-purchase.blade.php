@@ -8,6 +8,11 @@
 @csrf
 <div class="box-shadow my-2">
     <h4 class="text-center my-3">Add Purchase</h4>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <span></span>
+        <a href="{{route('purchases.index')}}" class="d-none d-sm-inline-block btn btn-sm button1"><i
+                class="fas fa-eye fa-sm"></i> View Entries</a>
+    </div>
     @if (session('status'))
     <div class="alert alert-success">{{ session('status') }}</div>
     @endif
@@ -55,10 +60,11 @@
                 <div class="row">
                     <div class="col-log-12">
                     <input type="hidden" id="product_id" name="product_id">
+                    <input type="hidden" id="created_by" name="created_by" value="{{$user}}">
                     </div>
                     <div class="col-lg-12">
                         <label for="date" class="col-form-label">Date Today<span class="text-danger">*</span></label>
-                        <input type="date" value="<?php echo date('Y-m-d');?>" name="created_date" id="date" class="form-control calc-total">
+                        <input type="date" value="<?php echo date('Y-m-d');?>" name="created_date" id="date" class="form-control calc-total" readonly disabled>
                     </div>
                     <form>
                         <div class="col-lg-6">
@@ -152,7 +158,7 @@ if (discount > 0) {
             });
 
             $(document).ready(function() {
-            $('#barcode-input').on('keyup', function(j) {
+            $('#barcode-input').on('change', function(j) {
             var barcode = $(this).val();
             // Make an AJAX request to fetch product data
             $.ajax({

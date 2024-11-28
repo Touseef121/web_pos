@@ -65,9 +65,22 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{ route('purchase.barcode') }}">Add Purchase</a>
-                        <a class="collapse-item" href="{{ route('add.product') }}">Add New Product</a>
+                        <a class="collapse-item" href="{{ route('add.product') }}">New Product</a>
                         <a class="collapse-item" href="{{ route('index.product') }}">View Products</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsethree"
+                    aria-expanded="true" aria-controls="collapsethree">
+                    <i class="fas fa-fw fa-shopping-bag"></i>
+                    <span>Purchases</span>
+                </a>
+                <div id="collapsethree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ route('purchase.barcode') }}">Add Purchase</a>
+                        <a class="collapse-item" href="{{ route('purchases.index') }}">View Purchases</a>
                     </div>
                 </div>
             </li>

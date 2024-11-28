@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\PurchaseRecord;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Suplier extends Model
 {
@@ -15,5 +16,9 @@ class Suplier extends Model
     public function inventory()
     {
         return $this->hasMany(Inventroy::class);
+    }
+    public function record()
+    {
+        return $this->hasMany(PurchaseRecord::class);
     }
 }

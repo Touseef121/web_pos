@@ -49,10 +49,11 @@ Route::get('/product/barcode/{barcode}', [ProductController::class, 'fetchProduc
 Route::post('/update-product', [ProductController::class, 'updateProduct'])->name('update.product')->middleware('admin');
 Route::get('/purchases-index', [ProductController::class, 'purchasesIndex'])->name('purchases.index')->middleware('admin');
 Route::get('/purchase-details/{id}', [ProductController::class, 'purchaseDetails'])->name('purchase.details')->middleware('admin');
+Route::get('/purchases/search', [ProductController::class, 'searchrec'])->name('purchases.search');
+
 
 Route::get('/get-products', [CashierController::class, 'getProducts']);
 Route::get('/get-product-by-barcode/{barcode}', [CashierController::class, 'getProductByBarcode']);
-
 
 
 Route::get('/all-supplier', [AdminController::class, 'allSuplier'])->name('all.suplier')->middleware('admin');
