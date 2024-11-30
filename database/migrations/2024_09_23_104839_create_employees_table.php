@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('salary_status')->default('UnPaid');
             $table->string('picture')->default('No Image');
             $table->string('joining_date');
-            $table->string('leaving_date')->default('Null');
+            $table->string('leaving_date')->default('NULL');
             $table->timestamps();
         });
     }
