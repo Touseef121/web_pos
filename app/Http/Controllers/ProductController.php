@@ -37,7 +37,7 @@ class ProductController extends Controller
     }
 
     public function updateProduct(Request $request){
-        $id = $request->product_id;
+         $id = $request->product_id;
          $extisting_units = Inventory::where('product_id',$id)->value('purchased_units');
          $stock = $request->purchased_units;
          if($extisting_units){
@@ -49,32 +49,35 @@ class ProductController extends Controller
              $total_cost = $request->total_cost;
              $created_by = Auth::user()->user_name;
              $created_date = date('Y-m-d');
+            //  dd(1);
              $product = Inventory::where('product_id', $id)->update(['purchased_units' => $sum, 'purchase_cost' => $purchase_cost, 'tax' => $tax, 'discount' => $discount, 'per_unit_price' => $per_unit_price, 'total_cost' => $total_cost, 'created_by' => $created_by, 'created_date' => $created_date]);
-
-            // dd($data);
+             
+             // dd($data);
+             PurchaseRecord::create(['product_id' => $request->product_id ,'category' => $request->category, 'brand' => $request->brand, 'barcode' => $request->barcode,'purchased_units' => $request->purchased_units, 'purchase_cost' => $request->purchase_cost, 'tax' => $request->tax, 'discount' => $request->discount, 'per_unit_price' => $request->per_unit_price, 'total_cost' => $request->total_cost, 'created_by' => $created_by, 'created_date' => $created_date, 'expiry_date' => $request->expiry_date]);
+             return redirect()->route('purchase.barcode')->with('status', 'Purchase added successfully!');
+            }else{
+                $created_by = Auth::user()->user_name;
+                $created_date = date('Y-m-d');
+                $newProduct =  $request->validate([
+                    'product_id' => 'required',
+                    'category' => 'required',
+                    'brand' => 'required',
+                    'barcode' => 'required',
+                    'purchased_units' => 'required',
+                    'purchase_cost' => 'required',
+                    'tax' => 'required',
+                    'discount' => 'numeric',
+                    'per_unit_price' => 'required',
+                    'total_cost' => 'required',
+                    'created_by' => 'required',
+                    'expiry_date' => 'required',
+                ]);
+                // dd(2);
+                $product =  Inventory::create(['product_id' => $request->product_id ,'category' => $request->category, 'brand' => $request->brand, 'barcode' => $request->barcode,'purchased_units' => $request->purchased_units, 'purchase_cost' => $request->purchase_cost, 'tax' => $request->tax, 'discount' => $request->discount, 'per_unit_price' => $request->per_unit_price, 'total_cost' => $request->total_cost, 'created_by' => $created_by, 'created_date' => $created_date, 'expiry_date' => $request->expiry_date]);
+            $created_by = Auth::user()->user_name;
             PurchaseRecord::create(['product_id' => $request->product_id ,'category' => $request->category, 'brand' => $request->brand, 'barcode' => $request->barcode,'purchased_units' => $request->purchased_units, 'purchase_cost' => $request->purchase_cost, 'tax' => $request->tax, 'discount' => $request->discount, 'per_unit_price' => $request->per_unit_price, 'total_cost' => $request->total_cost, 'created_by' => $created_by, 'created_date' => $created_date, 'expiry_date' => $request->expiry_date]);
-            return redirect()->route('purchase.barcode')->with('status', 'Purchase added successfully!');
-         }else{
-             $newProduct =  $request->validate([
-             'product_id' => 'required',
-             'category' => 'required',
-             'brand' => 'required',
-             'barcode' => 'required',
-             'purchased_units' => 'required',
-             'purchase_cost' => 'required',
-             'tax' => 'required',
-             'discount' => 'numeric',
-             'per_unit_price' => 'required',
-             'total_cost' => 'required',
-             'created_by' => 'required',
-             'expiry_date' => 'required',
-             'created_date' => 'required',
-         ]);
-         $product = Inventory::create($newProduct);
-         $created_by = Auth::user()->user_name;
-         $data = $request->all();
-         PurchaseRecord::create($data, $created_by);
      }
+    //  dd(4);
          return redirect()->route('purchase.barcode')->with('status', 'Purchase added Successfully');
      }
 
