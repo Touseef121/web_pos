@@ -57,15 +57,6 @@
                     <input type="text" class="form-control" value="{{ $employeeData->salary }}" id="salary" name="salary">
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label for="salary_status">Salary Status</label>
-                    <select name="salary_status" id="salary_status" class="form-control">
-                        <option value="Paid" {{ $employeeData->salary_status == 'Paid' ? 'selected' : '' }}>Paid</option>
-                        <option value="Unpaid" {{ $employeeData->salary_status == 'Unpaid' ? 'selected' : '' }}>Unpaid</option>
-                    </select>
-                </div>
-            </div>
 
             <!-- Dates -->
             <div class="col-lg-6">

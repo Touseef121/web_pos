@@ -22,18 +22,15 @@
         thead>tr>th{ 
             font-weight: 800 !important;
         }
-        .total{
-            background-color: black;
-            color: white;
-        }
         .row{
             display: flex;
             justify-content:space-between;
             padding-left:20px;
             padding-right:20px;
         }
-        .total{
-            background-color: black;
+        h6{
+            font-size: 16px !important;
+            font-weight: 700 !important;
         }
     </style>
 </head>
@@ -44,19 +41,22 @@
         <h3 class="text-center">Shop Name</h3>
         <h3 class="text-center">Address</h3>
 
-        <div class="row">
-            <h6>
-                Bill id: <span>{{ $orderId }}</span>
-            </h6>
-            <h6>
-                Date: <span>{{ $todayDate }}</span>
-            </h6>
-        </div>
-        <div class="row">
-            <h6>
-                Bill by: <span>{{ $loggedInCashier }}</span>
-            </h6>
-        </div>
+            <div class="row mt-5 mb-2">
+                <h6 class="text-center">
+                    Date: <span>{{ $todayDate }}</span>
+                </h6>
+                <h6 class="text-center">
+                    Cashier Name: <span>{{ $loggedInCashier }}</span>
+                </h6>
+            </div>
+            <div class="row">
+                <h6 class="text-center">
+                    Bill #: <span>{{ $orderId }}</span>
+                </h6>
+                <h6 class="text-center">
+                    Bill Time: <span>{{ $time }}</span>
+                </h6>
+            </div>
         <div style="display: flex; justify-content:center;">
 
             <table class="table">
@@ -80,8 +80,12 @@
             </tbody>
         </table>
     </div>
-
-        <h5 class="text-center text-light fw-800 total">Grand Total: <span>{{ $order->total_price }}</span></h5>
+            <hr class="text-dark">
+            <h5 class="text-center text-dark fw-800 total">Grand Total: <span>{{ $order->total_price }}</span></h5>
+            <hr class="text-dark">
+            <div class="mt-5 text-center">
+                <h6>Software By: <span>Company Name</span></h6>
+            </div>
     </div>
     <script>
         $(document).ready(function() {

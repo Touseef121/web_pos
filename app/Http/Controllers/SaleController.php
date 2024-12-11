@@ -30,15 +30,15 @@ class SaleController extends Controller
             'products.*.name' => 'required|string',
             'products.*.quantity' => 'required|integer|min:1',
             'products.*.price' => 'required|numeric|min:0',
-            'date' => 'required|date'  
-        ]);
+            'date' => 'required'
+           ]);
     
         DB::beginTransaction(); 
-    
+        //    dd($request->date);
         try {
             $sale = Sale::create([
                 'order_id' => $request->order_id,
-                'date' => $request->date, 
+                'date' => $request->date,
                 'cashier_id' => Auth::id(),
                 'total_price' => collect($request->products)->sum(function ($product) {
                     return $product['price'] * $product['quantity'];
@@ -46,7 +46,7 @@ class SaleController extends Controller
                 'transaction_id' => $request->payment_method == 'card' ? $request->transaction_id : "Cash payment",
                 'payment_method' => $request->payment_method == "card" ? "Card Payment" : "Cash payment",
             ]);
-    
+            // dd($sale);
             foreach ($request->products as $product) {
 
                 SaleItem::create([

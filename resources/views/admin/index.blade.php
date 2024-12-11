@@ -18,6 +18,7 @@
         {{-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
     </div>
+    
     <div class="row">
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-warning shadow h-100 py-2">
@@ -38,33 +39,15 @@
             </div>
         </div>
         
-        <div class="col-xl-3 col-md-6 mb-4">
+        {{-- <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-warning shadow h-100 py-2">
-                <a href="{{route('view.employee')}}" class="aTags">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-l font-weight-bold text-danger text-uppercase mb-1">
-                                    Remaining Salaries Amount</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">PKR: {{ number_format($pending_salaries, 0) }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-users fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
-                <a href="{{route('view.employee')}}" class="aTags">
+                <a href="{{route('expense.index')}}" class="aTags">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-l font-weight-bold text-success text-uppercase mb-1">
-                                    Paid Salaries Amount</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">PKR: {{ number_format($paid_salaries, 0) }}</div>
+                                    Expenses (Total)</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">PKR: </div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -73,7 +56,7 @@
                     </div>
                 </a>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">

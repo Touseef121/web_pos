@@ -64,7 +64,6 @@
                         <th scope="col">Id Card Number</th>
                         <th scope="col">DOB</th>
                         <th scope="col">Salary</th>
-                        <th scope="col">Salary Status</th>
                         <th scope="col">Joining Date</th>
                         <th scope="col">Leaving Date</th>
                         <th scope="col">Action</th>
@@ -102,20 +101,6 @@
                         data: 'salary'
                     },
                     {
-                        data: 'salary_status',
-                        render: function(data, type, row) {
-                            if(row.leaving_date === null){
-                                if (data === 'Paid') {
-                                return '<div class="text-center"><span class="badge badge-pill paid-badge-glow">Paid</span></div>';
-                            } else {
-                                return '<div class="text-center"><span class="badge badge-pill badge-glow">UnPaid</span></div>';
-                            }
-                        }else{
-                                return '<div class="text-center"><span class="badge badge-pill resigned-badge-glow">Resigned</span></div>';
-                            }
-                        }
-                    },
-                    {
                         data: 'joining_date'
                     },
                     {
@@ -126,10 +111,8 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            if (row.leaving_date === null) {
-                                let editUrl = row.salary_status === "UnPaid" ?
-                                    `/employee/${row.id}/edit-salary` :
-                                    `/edit-employee-page/${row.id}`;
+                            if (row.leaving_date === 'NULL') {
+                                let editUrl = `/edit-employee-page/${row.id}`;
                                 return `<a class="button1" href="${editUrl}"><i class="fa fa-pencil"></i></a>`;
                             } else {
                                 return `<span class="text-muted">Resigned</span>`;

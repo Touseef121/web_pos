@@ -9,7 +9,6 @@ use App\Models\Product;
 use App\Models\Suplier;
 use App\Models\Employee;
 use Illuminate\Http\Request;
-use App\Models\EmployeeSalaryRecord;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
@@ -33,18 +32,13 @@ class AdminController extends Controller
     }
 
     public function index(){
-        $leavingDate = NULL;
         $totalProducts = Product::count();
+        $leavingDate = 'NULL';
         $totalEmployee = Employee::where('leaving_date',$leavingDate)->count();
-        $unPaid = "UnPaid";
-        $paid = "Paid";
         $total_salaries = Employee::where('leaving_date',$leavingDate)->sum('salary');
-        $pending_salaries = Employee::where('salary_status',$unPaid)->where('leaving_date',$leavingDate)->sum('salary');
-        $paid_salaries = Employee::where('salary_status',$paid)->where('leaving_date',$leavingDate)->sum('salary');
-        // dd($pending_salaries);
         $dateToday = date('Y-m-d');
         $totalSales = Sale::where('date',$dateToday)->sum('total_price');
-        return view('admin.index', compact('totalProducts', 'totalEmployee', 'totalSales', 'pending_salaries', 'total_salaries', 'paid_salaries'));
+        return view('admin.index', compact('totalProducts', 'totalEmployee', 'totalSales', 'total_salaries'));
     }
 
     public function profileIndex(){
@@ -117,7 +111,6 @@ class AdminController extends Controller
 
     public function deleteUser(String $id){
             $user = User::find($id)->delete();
-
             return redirect()->back()->with('status', 'User Deleted Successfully!');
     }
 
@@ -269,7 +262,7 @@ class AdminController extends Controller
                     'phone_number' => 'required',
                     'dob' => 'required',
                     'salary' => 'required',
-                    'salary_status' => 'required',
+                    // 'salary_status' => 'required',
                     'picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',$request->file('picture')->storeAs('public/uploads/images', $employee_pic),
                     'id_card_picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',$request->file('id_card_picture')->storeAs('public/uploads/images', $employee_id_pic),
                     'joining_date' => 'required',
@@ -288,7 +281,7 @@ class AdminController extends Controller
                         'phone_number' => 'required',
                         'dob' => 'required',
                         'salary' => 'required',
-                        'salary_status' => 'required',
+                        // 'salary_status' => 'required',
                         // 'picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',$request->file('picture')->storeAs('public/uploads/images', $employee_pic),
                         // 'id_card_picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',$request->file('id_card_picture')->storeAs('public/uploads/images', $employee_id_pic),
                         'joining_date' => 'required',
@@ -310,7 +303,7 @@ class AdminController extends Controller
 
         public function allEmployees(Request $request){
             if ($request->ajax()) {
-                $employee = Employee::select(['id', 'name', 'father_name', 'phone_number' ,'id_card_number' ,'dob' ,'salary', 'salary_status','joining_date' ,'leaving_date']);
+                $employee = Employee::select(['id', 'name', 'father_name', 'phone_number' ,'id_card_number' ,'dob' ,'salary','joining_date' ,'leaving_date']);
                 return DataTables::of($employee)->make(true);
             }
         }
@@ -322,7 +315,6 @@ class AdminController extends Controller
 
         public function saveEditEmployee(Request $request, String $id)
         {
-            $employee = Employee::findOrFail($id);
 
             $validated = $request->validate([
                 'name' => 'required',
@@ -331,57 +323,13 @@ class AdminController extends Controller
                 'id_card_number' => 'required',
                 'dob' => 'required',
                 'salary' => 'required',
-                'salary_status' => 'required',
-                'leaving_date' => 'nullable',
+                // 'leaving_date' => 'nullable',
             ]);
-
-            Employee::where('id',$employee)->update($validated);
-
-            // Check salary status
-            if ($employee->salary_status == "UnPaid") {
-                return redirect()->route('edit.salary', $employee->id);
-            }
-
+            // dd($validated);
+            Employee::where('id',$id)->update($validated);
             return redirect()->route('view.employee')->with('status', 'Record has been updated successfully!');
+
 }
-
-
-        public function editSalary($id)
-        {
-            $employee = Employee::findOrFail($id);
-
-            return view('admin.Employee.edit-salary', compact('employee'));
-        }
-
-        public function updateSalary(Request $request, $id)
-        {
-            $employee = Employee::findOrFail($id);
-
-            $validated = $request->validate([
-                'total_salary' => 'required|numeric',
-                'working_days' => 'required|integer',
-                'employee_id' => 'unique:employee_salary_table,employee_id,'
-            ]);
-
-            $perDaySalary = $validated['total_salary'] / now()->daysInMonth;
-            $calculatedSalary = $perDaySalary * $validated['working_days'];
-
-            // Save the salary record
-            EmployeeSalaryRecord::create([
-                'employee_id' => $employee->id,
-                'month_year' => now()->format('Y-m-01'),
-                'total_salary' => $validated['total_salary'],
-                'per_day_salary' => $perDaySalary,
-                'working_days' => $validated['working_days'],
-                'calculated_salary' => $calculatedSalary,
-                'salary_status' => "Paid",
-            ]);
-
-            // Update employee salary status
-            $employee->update(['salary_status' => "Paid"]);
-
-            return redirect()->route('view.employee')->with('status', 'Salary updated successfully!');
-        }
 
 
 

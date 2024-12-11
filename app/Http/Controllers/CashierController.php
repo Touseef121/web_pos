@@ -14,9 +14,9 @@ class CashierController extends Controller
 {
     public function index(){
         $todayDate = date('Y-m-d');
-        // dd($todayDate);
         $products = Product::all();
         $order_id = Sale::where('date',$todayDate)->orderBy('order_id', 'DESC')->value('order_id');
+        // dd($order_id);
         $next_order_id = $order_id + 1;
         return view('cashier.index', compact('todayDate', 'next_order_id', 'products'));
         // $sale_id = SaleItem::with('sale')->where('sale_id',1)->get();
@@ -98,7 +98,6 @@ public function savePdfOrder(Request $request)
     $orderId = $request->input('order_id');
 
     $pdf = PDF::loadView('cashier.pdf-template', compact('products', 'orderId'));
-
     $filePath = storage_path('app/public/orders/order_'.$orderId.'.pdf');
     $pdf->save($filePath);
 
@@ -113,10 +112,13 @@ public function printOrder($id)
 {
     $order = SaleItem::where('sale_id',$id)->get();
     $orderId = SaleItem::where('sale_id',$id)->value('sale_id');
-    $todayDate = date('d/m/Y');
+    $todayDate = date('d-M-Y ');
+    date_default_timezone_set('Asia/Karachi');
+    $time = date('h:i a');
     $loggedInCashier = Auth::user()->user_name;
-    return view('cashier.print-template', compact('order', 'todayDate', 'orderId', 'loggedInCashier'));
+    return view('cashier.print-template', compact('order', 'todayDate', 'time', 'orderId', 'loggedInCashier'));
 }
 
 
 }
+

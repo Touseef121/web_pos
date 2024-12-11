@@ -57,7 +57,7 @@
                 Actions
             </div>
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-shopping-bag"></i>
@@ -65,11 +65,10 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{ route('add.product') }}">New Product</a>
-                        <a class="collapse-item" href="{{ route('index.product') }}">View Products</a>
+                       
                     </div>
                 </div>
-            </li>
+            </li> --}}
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsethree"
@@ -115,7 +114,7 @@
                 </div>
             </li>
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser"
                     aria-expanded="true" aria-controls="collapseUser">
                     <i class="fas fa-fw fa-box"></i>
@@ -127,7 +126,7 @@
                         <a class="collapse-item" href="{{ route('index.user') }}">view Users</a>
                     </div>
                 </div>
-            </li>
+            </li> --}}
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEmployee"
@@ -140,6 +139,28 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ route('create.employee') }}">Add Employee</a>
                         <a class="collapse-item" href="{{ route('view.employee') }}">View Employees</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseothers"
+                    aria-expanded="true" aria-controls="#collapseothers">
+                    <i class="fas fa-fw fa-box"></i>
+                    <span>Others</span>
+                </a>
+                <div id="collapseothers" class="collapse" aria-labelledby="headingEmployee"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white px-0 pt-0 pb-2 m-0 collapse-inner rounded">
+                        <h6 class="text-center" style="background-color: black; padding:10px; color:white;">Products</h6>
+                        <a class="collapse-item" href="{{ route('add.product') }}">New Product</a>
+                        <a class="collapse-item" href="{{ route('index.product') }}">View Products</a>
+                        <h6 class="text-center mt-1" style="background-color: black; padding:10px; color:white;">Users</h6>
+                        <a class="collapse-item" href="{{ route('create.user') }}">Add User</a>
+                        <a class="collapse-item" href="{{ route('index.user') }}">view Users</a>
+                        <h6 class="text-center mt-1" style="background-color: black; padding:10px; color:white;">Expenses</h6>
+                        <a class="collapse-item" href="{{route('create.expense')}}">New Expense</a>
+                        <a class="collapse-item" href="{{route('expense.index')}}">View Expenses</a>
                     </div>
                 </div>
             </li>

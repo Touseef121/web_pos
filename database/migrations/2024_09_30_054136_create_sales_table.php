@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->string('order_id');
-            $table->foreignId('cashier_id')->constrained('users'); // Assuming there is a users table
-            $table->date('date')->default(date("Y-m-d"));            
+            $table->foreignId('cashier_id')->constrained('users');
+            $table->date('date')->default(DB::raw('CURRENT_DATE'));
             $table->string('payment_method')->default('Cash Payment');
             $table->string('transaction_id')->default('No id');
             $table->decimal('total_price', 10, 2); 

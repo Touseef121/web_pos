@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CashierController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InventoryController;
@@ -34,6 +35,13 @@ Route::get('/view-employee-page', [AdminController::class, 'viewEmployee'])->nam
 Route::get('/all-employee-page', [AdminController::class, 'allEmployees'])->name('all.employees')->middleware('admin');
 Route::get('/edit-employee-page/{id}', [AdminController::class, 'editEmployees'])->name('edit.employees')->middleware('admin');
 Route::post('/edit-employee/{id}', [AdminController::class, 'saveEditEmployee'])->name('save.edit')->middleware('admin');
+
+// Expense Routes
+Route::get('/index-expense', [ExpenseController::class, 'indexExpenses'])->name('expense.index')->middleware('admin');
+Route::get('/get-expense-data', [ExpenseController::class, 'getExpenses'])->name('get.expense')->middleware('admin');
+Route::get('/get-other-expense-data', [ExpenseController::class, 'getOtherExpenses'])->name('other.expense')->middleware('admin');
+Route::get('/create-expense-page', [ExpenseController::class, 'createExpense'])->name('create.expense')->middleware('admin');
+Route::post('/save-expense', [ExpenseController::class, 'saveExpense'])->name('save.expense')->middleware('admin');
 
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index')->middleware('admin');
@@ -83,6 +91,3 @@ Route::get('/print-order/{id}', [CashierController::class, 'printOrder']);
 Route::get('/orders/today', [SaleController::class, 'showTodayOrders'])->name('orders.today');
 Route::get('/orders/{orderId}/details', [SaleController::class, 'viewOrderDetails'])->name('orders.details');
 Route::post('/check-stock', [InventoryController::class, 'checkStock'])->name('check.stock');
-
-Route::get('/employee/{id}/edit-salary', [AdminController::class, 'editSalary'])->name('edit.salary');
-Route::post('/employee/{id}/update-salary', [AdminController::class, 'updateSalary'])->name('update.salary');

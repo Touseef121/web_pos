@@ -89,15 +89,6 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group">
-                        <label for="salary">Salary Status</label>
-                        <select name="salary_status" id="salary" class="form-control">
-                            <option value="UnPaid">UnPaid</option>
-                            <option value="Paid">Paid</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="form-group">
                         <label for="joining">Joining Date</label>
                         <input type="date" class="form-control" id="joining" name="joining_date">
                     </div>
