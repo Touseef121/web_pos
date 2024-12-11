@@ -48,6 +48,8 @@ class SaleController extends Controller
             ]);
             // dd($sale);
             foreach ($request->products as $product) {
+                $product_details = Inventory::where('product_id', $product['product_id'])->value('price_with_gst');
+                $profit_loss = $product['price'] - $product_details;
 
                 SaleItem::create([
                     'sale_id' => $sale->id,
@@ -56,8 +58,10 @@ class SaleController extends Controller
                     'quantity' => $product['quantity'],
                     'price' => $product['price'],
                     'total_price' => $product['price'] * $product['quantity'],
+                    'profit_loss' => $profit_loss * $product['quantity'],
                 ]);
-    
+
+                
                 
                 $inventoryItem = Inventory::where('product_id', $product['product_id'])->first(); 
 
@@ -130,6 +134,9 @@ class SaleController extends Controller
                     })
                     ->addColumn('total_price', function($sale) {
                         return $sale->products->pluck('total_price')->join(', ');
+                    })
+                    ->addColumn('profit_loss', function($sale) {
+                        return $sale->products->pluck('profit_loss')->join(', ');
                     })
                     ->make(true);
             }

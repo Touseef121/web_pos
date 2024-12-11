@@ -18,7 +18,8 @@
                 <th scope="col">Purchase Cost</th>
                 <th scope="col">Tax</th>
                 <th scope="col">Discount</th>
-                <th scope="col">Per Unit Price</th>
+                <th scope="col">Price (Including GST)</th>
+                <th scope="col">Price (Sale Price)</th>
                 <th scope="col">Total Cost</th>
                 <th scope="col">Expiry Date</th>
                 <th scope="col">Created By</th>
@@ -36,6 +37,7 @@
                     <td>{{$details->purchase_cost}}</td>
                     <td>{{$details->tax}}</td>
                     <td>{{$details->discount}}</td>
+                    <td>{{$details->price_with_gst}}</td>
                     <td>{{$details->per_unit_price}}</td>
                     <td>{{$details->total_cost}}</td>
                     <td>{{$details->expiry_date}}</td>

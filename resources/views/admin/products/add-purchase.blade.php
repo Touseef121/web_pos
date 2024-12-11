@@ -107,8 +107,12 @@
                             class="form-control calc-total">
                     </div>
                     <div class="col-lg-6">
-                        <label for="price-unit" class="col-form-label">Price (Per Unit)</label>
-                        <input type="number" name="per_unit_price" id="price-unit" class="form-control" readonly>
+                        <label for="price-unit" class="col-form-label">Price (Including GST)</label>
+                        <input type="number" name="price_with_gst" id="price-unit" class="form-control" readonly>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="price-units" class="col-form-label">Price (Sale Price)</label>
+                        <input type="number" name="per_unit_price" id="price-units" class="form-control">
                     </div>
                     <div class="col-lg-6">
                         <label for="selling-price" class="col-form-label">Price (Total)</label>

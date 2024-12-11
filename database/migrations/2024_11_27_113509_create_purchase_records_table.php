@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('purchase_cost');
             $table->string('tax');
             $table->string('discount'); 
+            $table->string('price_with_gst');
             $table->string('per_unit_price');
             $table->string('total_cost');
             $table->string('created_by');

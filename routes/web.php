@@ -5,6 +5,7 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProfitController;
 use App\Http\Controllers\CashierController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ManagerController;
@@ -42,6 +43,12 @@ Route::get('/get-expense-data', [ExpenseController::class, 'getExpenses'])->name
 Route::get('/get-other-expense-data', [ExpenseController::class, 'getOtherExpenses'])->name('other.expense')->middleware('admin');
 Route::get('/create-expense-page', [ExpenseController::class, 'createExpense'])->name('create.expense')->middleware('admin');
 Route::post('/save-expense', [ExpenseController::class, 'saveExpense'])->name('save.expense')->middleware('admin');
+
+
+// profit loss routes
+Route::get('/profit-index', [ProfitController::class, 'profitIndex'])->name('profit.index')->middleware('admin');
+Route::get('/fetch-profit-loss', [ProfitController::class, 'fetchProfitLoss'])->name('fetch.profit.loss');
+Route::get('/download-profit-loss-report', [ProfitController::class, 'downloadProfitLossReport'])->name('download.profit.loss.report');
 
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index')->middleware('admin');

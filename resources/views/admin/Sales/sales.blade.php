@@ -51,6 +51,7 @@
                         <th scope="col">Payment Method</th>
                         <th scope="col">Transaction Id</th>
                         <th scope="col">Total Price</th>
+                        <th scope="col">Profit (Per Order)</th>
                     </tr>
                 </thead>
             </table>
@@ -75,6 +76,7 @@
                     { data: 'payment_method', name: 'payment_method' },
                     { data: 'transaction_id', name: 'transaction_id' },
                     { data: 'total_price', name: 'total_price' },
+                    { data: 'profit_loss', name: 'profit_loss' },
                 ]
             });
         });

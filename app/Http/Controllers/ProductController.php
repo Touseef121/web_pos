@@ -45,15 +45,16 @@ class ProductController extends Controller
              $purchase_cost = $request->purchase_cost;
              $tax = $request->tax;
              $discount = $request->discount;
+             $price_with_gst = $request->price_with_gst;
              $per_unit_price = $request->per_unit_price;
              $total_cost = $request->total_cost;
              $created_by = Auth::user()->user_name;
              $created_date = date('Y-m-d');
             //  dd(1);
-             $product = Inventory::where('product_id', $id)->update(['purchased_units' => $sum, 'purchase_cost' => $purchase_cost, 'tax' => $tax, 'discount' => $discount, 'per_unit_price' => $per_unit_price, 'total_cost' => $total_cost, 'created_by' => $created_by, 'created_date' => $created_date]);
+             $product = Inventory::where('product_id', $id)->update(['purchased_units' => $sum, 'purchase_cost' => $purchase_cost, 'tax' => $tax, 'discount' => $discount, 'price_with_gst' => $price_with_gst,'per_unit_price' => $per_unit_price, 'total_cost' => $total_cost, 'created_by' => $created_by, 'created_date' => $created_date]);
              
              // dd($data);
-             PurchaseRecord::create(['product_id' => $request->product_id ,'category' => $request->category, 'brand' => $request->brand, 'barcode' => $request->barcode,'purchased_units' => $request->purchased_units, 'purchase_cost' => $request->purchase_cost, 'tax' => $request->tax, 'discount' => $request->discount, 'per_unit_price' => $request->per_unit_price, 'total_cost' => $request->total_cost, 'created_by' => $created_by, 'created_date' => $created_date, 'expiry_date' => $request->expiry_date]);
+             PurchaseRecord::create(['product_id' => $request->product_id ,'category' => $request->category, 'brand' => $request->brand, 'barcode' => $request->barcode,'purchased_units' => $request->purchased_units, 'purchase_cost' => $request->purchase_cost, 'tax' => $request->tax, 'discount' => $request->discount, 'price_with_gst' => $price_with_gst, 'per_unit_price' => $request->per_unit_price, 'total_cost' => $request->total_cost, 'created_by' => $created_by, 'created_date' => $created_date, 'expiry_date' => $request->expiry_date]);
              return redirect()->route('purchase.barcode')->with('status', 'Purchase added successfully!');
             }else{
                 $created_by = Auth::user()->user_name;
@@ -67,6 +68,7 @@ class ProductController extends Controller
                     'purchase_cost' => 'required',
                     'tax' => 'required',
                     'discount' => 'numeric',
+                    'price_with_gst' => 'required',
                     'per_unit_price' => 'required',
                     'total_cost' => 'required',
                     'created_by' => 'required',

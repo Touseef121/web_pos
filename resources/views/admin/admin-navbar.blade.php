@@ -161,6 +161,8 @@
                         <h6 class="text-center mt-1" style="background-color: black; padding:10px; color:white;">Expenses</h6>
                         <a class="collapse-item" href="{{route('create.expense')}}">New Expense</a>
                         <a class="collapse-item" href="{{route('expense.index')}}">View Expenses</a>
+                        <h6 class="text-center mt-1" style="background-color: black; padding:10px; color:white;">Profit/Loss</h6>
+                        <a class="collapse-item" href="{{route('profit.index')}}">Profit/Loss</a>
                     </div>
                 </div>
             </li>

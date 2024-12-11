@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Sale;
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Expense;
 use App\Models\Product;
 use App\Models\Suplier;
 use App\Models\Employee;
+use App\Models\SaleItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -36,9 +38,11 @@ class AdminController extends Controller
         $leavingDate = 'NULL';
         $totalEmployee = Employee::where('leaving_date',$leavingDate)->count();
         $total_salaries = Employee::where('leaving_date',$leavingDate)->sum('salary');
+        $overallSales = Sale::sum('total_price');
+        $profit = SaleItem::sum('profit_loss');
         $dateToday = date('Y-m-d');
         $totalSales = Sale::where('date',$dateToday)->sum('total_price');
-        return view('admin.index', compact('totalProducts', 'totalEmployee', 'totalSales', 'total_salaries'));
+        return view('admin.index', compact('totalProducts', 'totalEmployee', 'totalSales', 'total_salaries', 'overallSales', 'profit'));
     }
 
     public function profileIndex(){
