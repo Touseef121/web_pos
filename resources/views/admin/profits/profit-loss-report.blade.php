@@ -7,7 +7,7 @@
     <title>Profit/Loss Report</title>
 </head>
 <body>
-    <h2>Profit/Loss Report (Store Name) from {{ $from }} to {{ $to }}</h2>
+    <h2>(Store Name) Profit Report from {{ $from }} to {{ $to }}</h2>
 
     <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-top: 20px;">
         <thead>
@@ -29,7 +29,7 @@
                     <td>{{ $item->price }}</td>
                     <td>{{ $item->total_price }}</td>
                     <td>{{ $item->profit_loss }}</td>
-                </tr>
+                </tr>   
             @endforeach
         </tbody>
     </table>
