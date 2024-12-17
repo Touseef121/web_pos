@@ -81,6 +81,20 @@
                         <label for="tax_id" class="col-form-label">Tax Id </label>
                         <input type="text" name="tax_id" value="{{$data->tax_id}}"  id="tax_id" class="form-control">
                     </div>
+                    <div class="col-lg-6">
+                        <label for="status" class="col-form-label">Status of Supplier</label>
+                        @if ($data->status === "1")
+                        <select name="status" id="status" class="form-control">Status
+                            <option value="1">Active</option>
+                            <option value="0">Close</option>
+                        </select>
+                        @elseif($data->status === "0")
+                        <select name="status" id="status" class="form-control">Status
+                            <option value="0">Closed</option>
+                            <option value="1">Activate again</option>
+                        </select>
+                            @endif
+                    </div>
                     <div class="col-12 my-4">
                     <input type="submit" value="Save Product" title="Save Product" class="button1">
                 </div>

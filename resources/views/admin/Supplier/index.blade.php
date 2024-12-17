@@ -63,13 +63,30 @@
                     { data: 'state' },
                     { data: 'postal_code' },
                     { data: 'tax_id' },
-                    { data: 'status' },
+                    { data: 'status',
+                      orderable: false,
+                      searchable: false,
+                      render: function(data, type, row) {
+                        // Create an "Edit" button with the product's ID
+                        if (row.status === '1') {
+                            return `<span class="badge badge-success badge-pill" style="box-shadow: 0px 0px 10px 5px #28A745;">Active</span>`;
+                            } else {
+                                return `<span class="badge badge-danger badge-pill" style="box-shadow: 0px 0px 10px 5px red">Supplier Closed</span>`;
+                            }
+                    }
+                    },
                     { data: null,
                       orderable: false,
                       searchable: false,
                       render: function(data, type, row) {
                         // Create an "Edit" button with the product's ID
-                        return `<a class="button1" href="/edit-supplier/${row.id}"><i class="fa fa-pencil"></i></a>`;
+                        if (row.status === '1') {
+                                let editUrl = `/edit-supplier/${row.id}`;
+                                return `<a class="button1" href="${editUrl}"><i class="fa fa-pencil"></i></a>`;
+                            } else {
+                                let editUrl = `/edit-supplier/${row.id}`;
+                                return `<a class="button1" href="${editUrl}"><i class="fa fa-pencil"></i></a>`;
+                            }
                     }
                     },
                 ]

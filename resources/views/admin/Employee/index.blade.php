@@ -115,7 +115,7 @@
                                 let editUrl = `/edit-employee-page/${row.id}`;
                                 return `<a class="button1" href="${editUrl}"><i class="fa fa-pencil"></i></a>`;
                             } else {
-                                return `<span class="text-muted">Resigned</span>`;
+                                return `<span class="badge badge-pill badge-danger" style="box-shadow: 0px 0px 10px 5px red">Resigned</span>`;
                             }
                         }
                     }

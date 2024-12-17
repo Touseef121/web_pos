@@ -241,7 +241,8 @@ class AdminController extends Controller
                     'address' => 'required',
                     'city' => 'required', 
                     'postal_code' => 'required',
-                    'tax_id' => 'required'
+                    'tax_id' => 'required',
+                    'status' => 'nullable'
                 ]
             );
 
