@@ -289,7 +289,7 @@ class AdminController extends Controller
                         // 'picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',$request->file('picture')->storeAs('public/uploads/images', $employee_pic),
                         // 'id_card_picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',$request->file('id_card_picture')->storeAs('public/uploads/images', $employee_id_pic),
                         'joining_date' => 'required',
-                        // 'leaving_date' => 'nullable'
+                        'leaving_date' => 'nullable'
                     ]
                 );
             }
@@ -327,7 +327,7 @@ class AdminController extends Controller
                 'id_card_number' => 'required',
                 'dob' => 'required',
                 'salary' => 'required',
-                // 'leaving_date' => 'nullable',
+                'leaving_date' => 'date',
             ]);
             // dd($validated);
             Employee::where('id',$id)->update($validated);
