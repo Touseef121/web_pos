@@ -76,17 +76,17 @@
                         <td>{{ $order->price }}</td>
                         <td>{{ $order->quantity * $order->price }}</td>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
+        <hr class="text-dark">
+        <h5 class="text-center text-dark fw-800 total">Grand Total: <span>{{ $order->total_price }}</span></h5>
+        <hr class="text-dark">
+        <div class="mt-5 text-center">
+            <h6>Software By: <span>Company Name</span></h6>
+        </div>
     </div>
-            <hr class="text-dark">
-            <h5 class="text-center text-dark fw-800 total">Grand Total: <span>{{ $order->total_price }}</span></h5>
-            <hr class="text-dark">
-            <div class="mt-5 text-center">
-                <h6>Software By: <span>Company Name</span></h6>
-            </div>
-    </div>
+    @endforeach
     <script>
         $(document).ready(function() {
             var dt = new Date();

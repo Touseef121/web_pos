@@ -106,10 +106,10 @@
                     <input type="text" name="brand" id="brand" class="form-control calc-total" required>
                 </div>
                 <div class="col-lg-6">
-                    <select name="status" id="status">Status</select>
-                    <option value="">---------- Select Status ----------</option>
-                    <option value="1">Active</option>
-                    <option value="0">Close Supplier</option>
+                    <label for="status" class="col-form-label">Status</label>
+                    <select name="status" class="form-control" id="status">
+                        <option value="1">Active</option>
+                    </select>
                 </div>
                 <div class="col-12">
                     <label for="desc" class="col-form-label">Description</label>

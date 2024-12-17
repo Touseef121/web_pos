@@ -39,10 +39,9 @@ class AdminController extends Controller
         $totalEmployee = Employee::where('leaving_date',$leavingDate)->count();
         $total_salaries = Employee::where('leaving_date',$leavingDate)->sum('salary');
         $overallSales = Sale::sum('total_price');
-        $profit = SaleItem::sum('profit_loss');
         $dateToday = date('Y-m-d');
         $totalSales = Sale::where('date',$dateToday)->sum('total_price');
-        return view('admin.index', compact('totalProducts', 'totalEmployee', 'totalSales', 'total_salaries', 'overallSales', 'profit'));
+        return view('admin.index', compact('totalProducts', 'totalEmployee', 'totalSales', 'total_salaries', 'overallSales'));
     }
 
     public function profileIndex(){
