@@ -163,6 +163,7 @@
                         <a class="collapse-item" href="{{route('expense.index')}}">View Expenses</a>
                         <h6 class="text-center mt-1" style="background-color: black; padding:10px; color:white;">Profit/Loss</h6>
                         <a class="collapse-item" href="{{route('profit.index')}}">Profit/Loss</a>
+                        <a class="collapse-item" href="{{route('petty-cash.create')}}">Petty cash</a>
                     </div>
                 </div>
             </li>

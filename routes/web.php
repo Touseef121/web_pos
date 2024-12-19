@@ -11,7 +11,9 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\PettyCashController;
 
+// create user routes
 
 Route::get('/', function () {return view('home');})->name('home');
 Route::get('/create-user-page', [AdminController::class, 'createUser'])->name('create.user')->middleware('admin');
@@ -22,6 +24,8 @@ Route::get('/edit-user-page', [AdminController::class, 'editUser'])->name('edit.
 Route::post('/edit-user', [AdminController::class, 'saveEdit'])->name('save.edit')->middleware('usercheck');
 Route::get('/delete-user/{id}', [AdminController::class, 'deleteUser'])->name('delete.user')->middleware('admin');
 
+// authorization routes
+
 Route::get('/login', [UserController::class, 'loginPage'])->name('login.page');
 Route::post('/user-login', [UserController::class, 'userLogin'])->name('user.login');
 Route::get('/user-logout', [UserController::class, 'userLogout'])->name('user.logout');
@@ -29,6 +33,7 @@ Route::get('/profile-page', [AdminController::class, 'profileIndex'])->name('pro
 Route::get('/profile-edit', [AdminController::class, 'profileEdit'])->name('profile.edit')->middleware('usercheck');
 Route::post('/save-edit/{id}', [AdminController::class, 'saveProfile'])->name('save.profile')->middleware('usercheck');
 
+// employee routes
 
 Route::get('/create-employee-page', [AdminController::class, 'createEmployee'])->name('create.employee')->middleware('admin');
 Route::post('/save-employee', [AdminController::class, 'saveEmployee'])->name('save.employee')->middleware('admin');
@@ -50,6 +55,7 @@ Route::get('/profit-index', [ProfitController::class, 'profitIndex'])->name('pro
 Route::get('/fetch-profit-loss', [ProfitController::class, 'fetchProfitLoss'])->name('fetch.profit.loss');
 Route::get('/download-profit-loss-report', [ProfitController::class, 'downloadProfitLossReport'])->name('download.profit.loss.report');
 
+// admin pannel routes
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index')->middleware('admin');
 Route::get('/product-index', [AdminController::class, 'productIndex'])->name('index.product')->middleware('admin');
@@ -58,6 +64,7 @@ Route::get('/add-product', [AdminController::class, 'addProduct'])->name('add.pr
 Route::post('/create-product', [AdminController::class, 'createProduct'])->name('create.product')->middleware('admin');
 Route::get('/delete-product/{id}', [AdminController::class, 'saveProduct'])->name('delete.product')->middleware('admin');
 
+// purchases routes
 
 Route::get('/add-purchase', [ProductController::class, 'purchaseBarcode'])->name('purchase.barcode')->middleware('admin');
 Route::get('/product/barcode/{barcode}', [ProductController::class, 'fetchProductByBarcode']);
@@ -67,9 +74,7 @@ Route::get('/purchase-details/{id}', [ProductController::class, 'purchaseDetails
 Route::get('/purchases/search', [ProductController::class, 'searchrec'])->name('purchases.search');
 
 
-Route::get('/get-products', [CashierController::class, 'getProducts']);
-Route::get('/get-product-by-barcode/{barcode}', [CashierController::class, 'getProductByBarcode']);
-
+// suppliers and sales routes
 
 Route::get('/all-supplier', [AdminController::class, 'allSuplier'])->name('all.suplier')->middleware('admin');
 Route::get('/index-supplier', [AdminController::class, 'suplierIndex'])->name('index.supplier')->middleware('admin');
@@ -82,12 +87,13 @@ Route::get('/total-sales', [SaleController::class, 'totalSales'])->name('total.s
 Route::get('/today-sales', [SaleController::class, 'todaySales'])->name('today.sales')->middleware('admin');
 Route::get('/sales/{cashier_id}', [SaleController::class, 'salesByCashier'])->name('sales.by.cashier');
 
+
 Route::get('/manager', [ManagerController::class, 'index'])->name('manager.index')->middleware('manager');
 Route::get('/cashier', [CashierController::class, 'index'])->name('cashier.index')->middleware('cashier');
 Route::get('/products', [ProductController::class, 'index'])->name('dataentry.index')->middleware('dataentry');
 
 
-
+// cashier products - prinf - pdf routes
 Route::post('/fetch-product', [CashierController::class, 'fetchProduct']);
 Route::post('/save-order', [SaleController::class, 'saveOrder'])->name('save.order');
 Route::post('/calculate-total', [CashierController::class, 'calculateTotal']);
@@ -98,3 +104,13 @@ Route::get('/print-order/{id}', [CashierController::class, 'printOrder']);
 Route::get('/orders/today', [SaleController::class, 'showTodayOrders'])->name('orders.today');
 Route::get('/orders/{orderId}/details', [SaleController::class, 'viewOrderDetails'])->name('orders.details');
 Route::post('/check-stock', [InventoryController::class, 'checkStock'])->name('check.stock');
+Route::get('/get-products', [CashierController::class, 'getProducts']);
+Route::get('/get-product-by-barcode/{barcode}', [CashierController::class, 'getProductByBarcode']);
+
+// petty cash routes
+
+Route::get('petty-cash/create', [PettyCashController::class, 'create'])->name('petty-cash.create')->middleware('admin');
+Route::post('petty-cash', [PettyCashController::class, 'store'])->name('petty-cash.store')->middleware('admin');
+Route::get('/cashier/petty-cash-popup', [PettyCashController::class, 'showPopup']);
+Route::post('/cashier/mark-notification-read', [PettyCashController::class, 'markNotificationRead']);
+Route::post('/cashier/mark-notification-read', [PettyCashController::class, 'markNotificationRead']);

@@ -492,6 +492,69 @@
                         document.getElementById('viewOrdersBtn').addEventListener('click', function() {
                             window.open('/orders/today', 'OrderWindow', 'width=800,height=600');
                         });
+
+                        $(document).ready(function() {
+                            // Fetch petty cash notification
+                            $.ajax({
+                                url: '/cashier/petty-cash-popup',
+                                method: 'GET',
+                                success: function(response) {
+                                    if (response.showPopup) {
+                                        displayPopup(response.data);
+                                    }
+                                },
+                                error: function() {
+                                    console.error('Failed to fetch petty cash notification.');
+                                }
+                            });
+
+                            // Function to display popup
+                            function displayPopup(data) {
+                                let popupHtml = `
+                                <div id="pettyCashPopup" style="position: fixed; top: 20%; left: 50%; translate:-50%; padding: 20px; background: white; border: 1px solid black; z-index: 1000;">
+                                    <h3 class="text-center">Verify Petty Cash</h3>
+                                    <ul>
+                                        <li>Rs 10: <strong>${data.rs_10}</strong></li>
+                                        <li>Rs 20: <strong>${data.rs_20}</strong></li>
+                                        <li>Rs 50:<strong>${data.rs_50}</strong></li>
+                                        <li>Rs 100: <strong>${data.rs_100}</strong></li>
+                                        <li>Rs 500: <strong>${data.rs_500}</strong></li>
+                                        <li>Rs 1000: <strong>${data.rs_1000}</strong></li>
+                                        <li>Rs 5000: <strong>${data.rs_5000}</strong></li>
+                                        </ul>
+                                        <h4 class="text-center">Total Amount of Petty Cash</h4>
+                                        <h5>Total Amount: Rs <strong>${data.total_amount}</strong></h5>
+                                    <button id="verifyPopup" class="button1">Verify</button>
+                                </div>
+        `;
+                                $('body').append(popupHtml);
+
+
+                                // Verify button handler
+                                $('#verifyPopup').click(function() {
+                                    markAsVerified();
+                                    $('#pettyCashPopup').remove();
+                                });
+                            }
+
+                            // Mark as verified
+                            function markAsVerified() {
+                                $.ajax({
+                                    url: '/cashier/mark-notification-read',
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                                    },
+                                    success: function() {
+                                        console.log('Popup marked as verified.');
+                                    },
+                                    error: function() {
+                                        console.error('Failed to mark popup as verified.');
+                                    }
+                                });
+                            }
+                        });
                     </script>
+
                 </body>
             @endsection
