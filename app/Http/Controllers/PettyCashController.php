@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\PettyCash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PettyCashController extends Controller
 {
@@ -12,7 +13,7 @@ class PettyCashController extends Controller
     {
         $cashiers = User::where('role', 'cashier')->get();
         if ($cashiers->isEmpty()) {
-            return redirect()->back()->withErrors('No cashiers found.');
+            return redirect()->back()->with('error', 'No cashiers found.');
         }
         return view('admin.petty-cash.create', compact('cashiers'));
     }
@@ -51,7 +52,7 @@ class PettyCashController extends Controller
 
 
             $today = now()->startOfDay();
-            $pettyCash = PettyCash::where('cashier_id', auth()->id())
+            $pettyCash = PettyCash::where('cashier_id', Auth::id())
                 ->where(function ($query) use ($today) {
                     $query->whereNull('popup_shown_at')
                         ->orWhere('popup_shown_at', '<', $today);
@@ -70,7 +71,7 @@ class PettyCashController extends Controller
 
     public function markNotificationRead()
     {
-        $pettyCash = PettyCash::where('cashier_id', auth()->id())
+        $pettyCash = PettyCash::where('cashier_id', Auth::id())
             ->latest()
             ->first();
     

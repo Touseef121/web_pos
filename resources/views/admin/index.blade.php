@@ -18,7 +18,12 @@
         {{-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
     </div>
-    
+    @if (session('status'))
+                <div class="alert alert-success">{{ session('status') }}</div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
     <div class="row">
         
 
